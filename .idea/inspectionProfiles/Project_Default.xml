@@ -1,0 +1,38 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="PyPackageRequirementsInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredPackages">
+        <list>
+          <option value="numpy" />
+          <option value="PySide" />
+          <option value="aiohttp" />
+          <option value="async-timeout" />
+          <option value="attrs" />
+          <option value="chardet" />
+          <option value="discord.py" />
+          <option value="idna" />
+          <option value="idna-ssl" />
+          <option value="multidict" />
+          <option value="python-dotenv" />
+          <option value="typing-extensions" />
+          <option value="yarl" />
+        </list>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="PyShadowingBuiltinsInspection" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+      <option name="ignoredNames">
+        <list>
+          <option value="id" />
+        </list>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="PyUnresolvedReferencesInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredIdentifiers">
+        <list>
+          <option value="sqlite3" />
+        </list>
+      </option>
+    </inspection_tool>
+  </profile>
+</component>

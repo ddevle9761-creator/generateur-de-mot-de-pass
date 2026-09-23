@@ -1,0 +1,4 @@
+*assets/test.py
+.env/
+.junie/
+historique_page.py
