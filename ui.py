@@ -52,12 +52,14 @@ class MainWindow(QtWidgets.QWidget):
     def obtenir_le_result_du_champs(self):
         champ1 = self.champ1.text()
         if champ1 == '' or champ1 is None:
-
+            QtWidgets.QMessageBox.information(self, "info", "vecteur du mot de passe")
             return False
         model = GenerateurMdp()
         genere = model.generer_un_mot_de_pass(champ1)
         model.sauvegarder_le_mdp()
         self.liste_widget.clear()
+        self.champ1.clear()
+
         self.liste_widget.addItem(genere)
 
         return genere
@@ -69,7 +71,8 @@ class MainWindow(QtWidgets.QWidget):
         copier = QApplication.clipboard()
         copier.setText(mdp.text())
         QtWidgets.QMessageBox.information(self, "info", "Mot de pass copier")
-        return None
+        self.liste_widget.clear()
+        self.champ1.clear()
 
 if __name__ == "__main__":
 

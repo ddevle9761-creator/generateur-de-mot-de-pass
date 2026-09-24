@@ -30,12 +30,10 @@ class Dashboard(QWidget):
 
         sidebar = QVBoxLayout()
         sidebar.setContentsMargins(10, 10, 10, 10)
-        sidebar.setSpacing(20)
+        sidebar.setSpacing(10)
         sidebar.addWidget(self.btn_tableau)
         sidebar.addStretch(1)
         sidebar.addWidget(self.btn_histo)
-
-
 
 
         # Contenu principal (pile de pages)

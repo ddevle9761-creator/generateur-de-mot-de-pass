@@ -42,7 +42,7 @@ class GenerateurMdp:
         return mdp
 
     def sauvegarder_le_mdp(self):
-        chemin = self.dir_file()
+        chemin = self.__dir_file__()
 
 
         with open(chemin, "r") as f:
@@ -54,13 +54,30 @@ class GenerateurMdp:
 
 
     def les_sauvegarde(self):
-        chemin = self.dir_file()
+        chemin = self.__dir_file__()
         with open(chemin, "r") as f:
             resul = json.load(f)
         return [i for i in resul ]
 
 
-    def dir_file(self):
+    def obtenir_recherche(self, filter_text):
+        chemin = self.__dir_file__()
+        query = (filter_text or '').strip().lower()
+        with open(chemin, "r") as f:
+            resul = [json.load(f)]
+        liste = []
+        if resul:
+            for i in resul[0]:
+                if query in str(i.keys()).lower():
+                    liste.append(i)
+
+        return liste
+
+
+
+
+    @staticmethod
+    def __dir_file__():
         chemin = pathlib.Path(DATA_DIR) / "mot_de_pass.json"
         try:
             if not os.path.exists(DATA_DIR):
@@ -70,12 +87,15 @@ class GenerateurMdp:
         return str(chemin)
 
 
+
+
+
 if __name__ == '__main__':
     
     c = GenerateurMdp()
 
-    print(c.generer_un_mot_de_pass('FaceBook'))
-    print(c.les_sauvegarde())
+    #print(c.generer_un_mot_de_pass(''))
+    print(c.obtenir_recherche('p'))
 
 # mdf = "/:%o>{U6t!#Vjx70GMaN"
 # h_mdp = "98dc2026048a72af55a4c5d1c0802f477abdaa2b1397ab6f67b37ffe6d1e4998"
