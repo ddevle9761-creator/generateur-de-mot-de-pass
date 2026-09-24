@@ -71,11 +71,12 @@ class MainWindow(QtWidgets.QWidget):
         QtWidgets.QMessageBox.information(self, "info", "Mot de pass copier")
         return None
 
+if __name__ == "__main__":
 
-app = QtWidgets.QApplication(sys.argv)
-with open('assets/styles.qss', 'r') as f:
-    styles = f.read()
-    app.setStyleSheet(styles)
-window = MainWindow()
-window.show()
-app.exec()
+    app = QtWidgets.QApplication(sys.argv)
+    with open('assets/styles.qss', 'r') as f:
+        styles = f.read()
+        app.setStyleSheet(styles)
+    window = MainWindow()
+    window.show()
+    app.exec()
