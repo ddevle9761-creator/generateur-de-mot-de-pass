@@ -1,9 +1,7 @@
 import sys
 from gestion import GenerateurMdp
 
-from PySide6 import QtWidgets, QtCore
-
-from PySide6.QtWidgets import QApplication
+from PySide6 import QtWidgets
 
 class MainWindow(QtWidgets.QWidget):
     def __init__(self):
@@ -11,6 +9,7 @@ class MainWindow(QtWidgets.QWidget):
 
         self.setWindowTitle("Gestionnaire de mots de passe")
         self.setGeometry(100, 100, 400, 300)
+
         self.setup_ui()
         self.connexion()
 
@@ -46,7 +45,7 @@ class MainWindow(QtWidgets.QWidget):
             self.champ1.clear()
             for info in infos:
                 for i, x in info.items():
-                    texte = f"{i}: -> {x}"
+                    texte = f"{i}: <-> {x}"
                     self.liste_widget.addItem(texte)
 
 
@@ -64,16 +63,6 @@ class MainWindow(QtWidgets.QWidget):
             self.liste_widget.clear()
             self.liste_widget.addItem('Aucune information trouvé')
             return
-
-
-
-
-
-
-
-
-
-
 
 
 
