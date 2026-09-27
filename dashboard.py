@@ -5,11 +5,12 @@ from PySide6.QtWidgets import (
     QApplication, QWidget, QPushButton,
     QVBoxLayout, QHBoxLayout, QLabel,
     QStackedWidget, QListWidget, QLineEdit, QSpinBox,
-    QMessageBox, QComboBox, QRadioButton, QButtonGroup
+    QMessageBox, QComboBox, QRadioButton, QButtonGroup, QMainWindow
 )
 
-from historique_page import MainWindow
-from ui import MainWindow as mn
+from ui import MainWindow
+from admin_page import AdminPage
+
 
 class Dashboard(QWidget):
     def __init__(self):
@@ -39,10 +40,13 @@ class Dashboard(QWidget):
         # Contenu principal (pile de pages)
         self.stack = QStackedWidget()
         self.pile_pages = self.stack
-        main_win = MainWindow()
-        Generate_win = mn()
-        self.pile_pages.addWidget(Generate_win)
-        self.pile_pages.addWidget(main_win)
+        self.main_win = AdminPage()
+        self.Generate_win = MainWindow()
+
+
+        self.pile_pages.addWidget(self.Generate_win)
+        self.pile_pages.addWidget(self.main_win)
+
 
         # le layout des windows
         top_layout = QHBoxLayout(self)
@@ -58,15 +62,21 @@ class Dashboard(QWidget):
 
     def connexion(self):
         self.btn_tableau.clicked.connect(self.page_Generate)
-        self.btn_histo.clicked.connect(self.page_Historique)
+        self.btn_histo.clicked.connect(self.page_authe)
+
 
     # la premiere page
     def page_Generate(self):
         self.pile_pages.setCurrentIndex(0)
 
     #la secode page
-    def page_Historique(self):
+    def page_authe(self):
         self.pile_pages.setCurrentIndex(1)
+
+
+
+
+
 
 
 
