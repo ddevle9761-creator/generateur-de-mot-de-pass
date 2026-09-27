@@ -1,4 +1,5 @@
 *assets/test.py
-.env/
+*.env/
 .junie/
 .idea/
+__pycache__
