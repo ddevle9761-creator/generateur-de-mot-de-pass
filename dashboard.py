@@ -18,6 +18,7 @@ class Dashboard(QWidget):
         self.setWindowTitle('Dashboard')
         self.setup_ui()
         self.connexion()
+        self.setGeometry(600, 500, 600, 500)
 
     def setup_ui(self):
         # Barres de navigation boutons en colonne

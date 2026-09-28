@@ -174,14 +174,15 @@
 #     #calculer_total_addition(-5, 10)                # devrait lever ValueError
     
 
-#
-# def liste_remove(liste, n):
-#     while n < 0:
-#         list1.pop(n)
-#         n -= 1
-#     return list1
-#
-#
-# list1 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-#
-# print(liste_remove(liste=list1, n=3))
+
+def liste_remove(liste, n):
+    while n < 0:
+        list1.pop(n)
+        list1.pop(-n)
+        n -= 1
+    return list1
+
+
+list1 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+print(liste_remove(liste=list1, n=3))

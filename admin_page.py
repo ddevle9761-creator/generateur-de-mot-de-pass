@@ -1,70 +1,154 @@
-from PySide6 import QtWidgets
-from PySide6.QtWidgets import QWidget, QApplication
+import sys
+
 from PySide6.QtWidgets import (
- QLineEdit, QPushButton, QVBoxLayout
+    QApplication,
+    QHBoxLayout,
+    QLabel,
+    QLineEdit,
+    QMessageBox,
+    QPushButton,
+    QStackedWidget,
+    QVBoxLayout,
+    QWidget,
 )
-
-
 
 from admin import Admin
 from historique_page import MainWindow
-import sys
+
 
 class AdminPage(QWidget):
     def __init__(self):
         super().__init__()
-        self.edit_nom_line = None
-        self.edit_mdp_line = None
         self.page_historique = None
-        self.btn_check = None
         self.setWindowTitle('Admin checking')
-        self.setGeometry(300, 300, 300, 300)
-        self.check_setup()
-        self.connexion()
+        self.resize(400, 400)
+        self.setup_ui()
 
-    def check_setup(self):
+    def setup_ui(self):
         layout = QVBoxLayout(self)
         layout.setContentsMargins(10, 5, 10, 5)
+        layout.setSpacing(10)
 
-        self.edit_nom_line = QLineEdit()
-        self.edit_nom_line.setPlaceholderText("Nom ")
-        self.edit_mdp_line = QLineEdit()
-        self.edit_mdp_line.setPlaceholderText("Mot de pass")
-        layout.addWidget(self.edit_nom_line)
-        layout.addWidget(self.edit_mdp_line)
+        self.stack = QStackedWidget(self)
+        layout.addWidget(self.stack)
 
-        self.btn_check = QPushButton('Verifier')
-        layout.addWidget(self.btn_check)
+        self.create_page = self._build_form_page(
+            title='inscription',
+            primary_label='Créer admin',
+            switch_label='Connexion',
+            input_name='create',
+        )
+        self.login_page = self._build_form_page(
+            title='identifiant admin',
+            primary_label='Vérifier',
+            switch_label='Inscription',
+            input_name='login',
+        )
 
-    def connexion(self):
-        self.btn_check.clicked.connect(lambda x:self.check_info())
+        self.stack.addWidget(self.create_page)
+        self.stack.addWidget(self.login_page)
+        self.stack.setCurrentIndex(0)
+
+        self.create_action_button.clicked.connect(self.check_user)
+        self.login_action_button.clicked.connect(self.check_info)
+
+        self.create_switch_button.clicked.connect(self.show_login_page)
+        self.login_switch_button.clicked.connect(self.show_create_page)
+
+    def _build_form_page(self, title, primary_label, switch_label, input_name):
+        page = QWidget()
+        layout = QVBoxLayout(page)
+        layout.setContentsMargins(10, 5, 10, 5)
+        layout.setSpacing(10)
+
+        title_layout = QHBoxLayout()
+        title_layout.setContentsMargins(5, 5, 5, 5)
+        title_label = QLabel(
+            f"<h1 style='text-align: center; color: rgba(10, 40, 80, 1)'>{title}</h1>"
+        )
+        title_layout.addWidget(title_label)
+
+        switch_button = QPushButton(switch_label)
+        title_layout.addWidget(switch_button)
+        layout.addLayout(title_layout)
+
+        name_input = QLineEdit()
+        name_input.setPlaceholderText('Nom')
+
+        password_input = QLineEdit()
+        password_input.setPlaceholderText('Mot de passe')
+        password_input.setEchoMode(QLineEdit.Password)
+
+        layout.addWidget(name_input)
+        layout.addWidget(password_input)
+
+        action_button = QPushButton(primary_label)
+        layout.addWidget(action_button)
+        layout.addStretch()
+
+        setattr(self, f'{input_name}_name_input', name_input)
+        setattr(self, f'{input_name}_password_input', password_input)
+        setattr(self, f'{input_name}_action_button', action_button)
+        setattr(self, f'{input_name}_switch_button', switch_button)
+
+        return page
+
+    def show_login_page(self):
+        self.clear_form(self.create_name_input, self.create_password_input)
+        self.stack.setCurrentWidget(self.login_page)
+        self.raise_()
+        self.activateWindow()
+
+    def show_create_page(self):
+        self.clear_form(self.login_name_input, self.login_password_input)
+        self.stack.setCurrentWidget(self.create_page)
+        self.raise_()
+        self.activateWindow()
+
+    @staticmethod
+    def clear_form(*champ):
+        for field in champ:
+            field.clear()
 
     def check_info(self):
-        nom = str(self.edit_nom_line.text())
-        mot = str(self.edit_mdp_line.text())
-        admin = Admin(nom, mot)
+        nom = self.login_name_input.text().strip()
+        mot = self.login_password_input.text()
 
+        if not nom or not mot:
+            QMessageBox.information(self, 'message', 'champ vide ...')
+            return
+
+        admin = Admin(nom, mot)
         if admin.check(nom, mot):
             self.page_historique = MainWindow()
             self.page_historique.show()
-            self.edit_mdp_line.clear()
-            self.edit_nom_line.clear()
+            self.clear_form(self.login_name_input, self.login_password_input)
+            return
 
-        else:
-            QtWidgets.QMessageBox.warning(self, 'Error', 'Le mot de pass est incorrect')
+        QMessageBox.warning(self, 'Error', 'Le mot de passe est incorrect')
+
+    def check_user(self):
+        nom = self.create_name_input.text().strip()
+        mot = self.create_password_input.text()
+
+        if not nom or not mot:
+            QMessageBox.information(self, 'message', 'champ vide ...')
+            return
+
+        admin = Admin(nom, mot)
+        if admin.check(nom, mot):
+            QMessageBox.warning(self, 'warning', 'Admin present')
+            return
+
+        admin.creer_un_admin()
+        self.clear_form(self.create_name_input, self.create_password_input)
+        QMessageBox.information(self, 'message', 'nouvel admin ajouté')
 
 
-
-
-
-
-
-if __name__ == "__main__":
-
+if __name__ == '__main__':
     app = QApplication(sys.argv)
     with open('assets/styles.qss', 'r') as f:
         app.setStyleSheet(f.read())
     window = AdminPage()
     window.show()
     app.exec()
-

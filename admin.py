@@ -63,5 +63,6 @@ class Admin:
 
 if __name__ == '__main__':
     a = Admin('ali', 'ali')
+    print(a.creer_un_admin())
     print(a.check('ali', 'ali'))
 
