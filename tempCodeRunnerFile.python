@@ -1,7 +1,0 @@
-import random
-
-mot = 'Bonjour' 
-
-melange = list(mot)
-random.shuffle(melange)
-print(''.join(melange))

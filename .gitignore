@@ -2,4 +2,5 @@
 *.env/
 .junie/
 .idea/
-__pycache__
+__pycache__/
+Constant.py
